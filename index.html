@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>扫雷游戏</title>
+</head>
+<style>
+    body,h1,h2,h3,h4,h5,h6,ul,li{
+    	padding: 0;
+    	margin: 0;
+    }
+    ul,li{
+       list-style:none;
+    }
+    body{
+    	background: url(扫雷图片/21.jpg) center center no-repeat;
+    }
+	.sence{
+		width: 600px;
+		height: 600px;
+		/*border: 1px solid #000;*/
+		position: absolute;
+		margin: auto;
+		left:0;
+		right:0;
+		top:0;
+		bottom: 0;
+	}
+	.block{
+		width: 60px;
+		height: 60px;
+		background:url(扫雷图片/1.png) center center no-repeat;
+    background-size:100%;
+		float: left;
+		text-align: center;
+		line-height: 60px;
+	}
+	.biaoji::after{
+		content:"⛳";
+	}
+    .tip{
+    	background:green;
+      border-radius:10px;
+      color:#fff;
+      font-size: 16px;
+    }
+    .warnning{
+    	background:red;
+			border-radius: 10px;
+    }
+     .shibai{
+     	height:300px;
+     	width:300px;
+     	position: absolute;
+        margin:auto;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        background:url(扫雷图片/5.gif) center center no-repeat;
+        background-size: 100%;
+        background-position:0  0;
+        z-index:10;
+     }
+     .kaishi{
+      position:absolute;
+      top:0;
+      left:0;
+      height:100%;
+      width:100%;
+      top:0;
+      left:0;
+      background: #000;
+      /*background:/*url(扫雷图片/qw.jpg) center center no-repeat;
+      background-size: 100%;*/*/
+      z-index:100;
+      transition:top 2s linear;
+     }
+     .kaishi .kai{
+        position: absolute;
+        margin:auto;
+        top:0;
+        left:0;
+        bottom:0;
+        right:0;
+        height:250px;
+        width:500px;
+     }
+     .kaishi .pn{
+      position: absolute;
+      left:320px;
+      top:220px;
+      z-index:10;
+      height:200px;
+      width:200px;
+      transform:rotateZ(-30deg);
+     }
+     .kaishi span{
+      background:url(扫雷图片/gf.png) center center no-repeat;
+      display: block;
+      background-size:100%;
+      height:300px;
+      width:300px;
+      position: absolute;
+      margin:auto;
+      z-index: 200000;
+      top:198px;
+      left:0;
+      right:0;
+     }
+     .shibai{
+      height: 100%;
+      width:100%;
+      position: absolute;
+      top:0;
+      left:0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+     }
+     .xuanze{
+          height:300px;
+          width:600px;
+          position: absolute;
+          margin: auto;
+          left:0;
+          right:0;
+          top:0;
+          bottom:0;
+          background:url(扫雷图片/ww.png);
+          border:1px solid black;
+     }
+     .shibai .tu{
+          height:100px;
+          width:100px;
+          position: absolute;
+          top:10px;
+          left:250px;
+          display: inline-block;
+          background: url(扫雷图片/tishi2.jpg.gif) center center no-repeat;
+          background-size: 100%;
+          border:1px solid black;
+     }
+      .youtu,.zuotu{
+            height:130px;
+            width:200px;
+            background:url(扫雷图片/a1.png);
+            display: inline-block;
+            margin-top:200px;
+            margin-left: 55px;
+            background-size: 100%;
+
+     }
+      .zuotu span,.youtu span{
+        display: block;
+        margin-left:65px;
+        margin-top: 27px;
+        font-weight: bold;
+        font-size: 20px;
+        color:#fff;
+      }
+     .youtu  .back{
+      margin-left: 85px;
+     }
+     .niu  .tu{
+      background: url(扫雷图片/tishi.jpg.gif);
+      background-size: 100%;
+     }
+     .niu{
+      height: 100%;
+      width:100%;
+      position: absolute;
+      top:0;
+      left:0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+     }
+     .center{
+       position: absolute;
+       margin:auto;
+       top:0;
+       bottom:0;
+       transition:all .5s linear;
+     }
+     .zuo{
+      left:0%;
+     }
+     .you{
+      right:0%;
+     }
+
+
+</style>
+<body>
+	<div class="sence"></div>
+    <div class="kaishi">
+      <img src="扫雷图片/21.png" alt="" class='pn'>
+			<span></span>
+      <img src="扫雷图片/jm.png" alt="" class='kai'>
+    </div>
+
+	    <div class="shibai">
+       <div class="xuanze">
+         <span class="tu"></span>
+         <span class='zuotu'><span>再战一次</span></span>
+         <span class='youtu '><span class='back'>退出</span></span>
+       </div>
+      </div>
+       <div class="niu">
+       <div class="xuanze">
+         <span class="tu"></span>
+         <span class='zuotu'><span>再战一次</span></span>
+         <span class='youtu '><span class='back'>退出</span></span>
+       </div>
+      </div>
+
+
+
+<script src="jquery.js"></script>
+<script>
+$(function(){
+  $('.kaishi').find('.zuo').css('left','50%');
+  $('.kaishi').find('.you').css('right','50%');
+
+    var draw=function(){
+    $(document).on('contextmenu',false);
+  var xy2id=function(a,b){
+    return a+'-'+b
+  }
+
+  //点击进入
+    $('.kaishi span').on('click',function(){
+      $('.kaishi').css('top','-800px');
+    })
+   var jisuan=function(x,y){
+     var num=0;
+     if($('#'+xy2id(x,y-1)).is('.lei')){num++};
+     if($('#'+xy2id(x,y+1)).is('.lei')){num++};
+     if($('#'+xy2id(x-1,y-1)).is('.lei')){num++};
+     if($('#'+xy2id(x-1,y)).is('.lei')){num++};
+     if($('#'+xy2id(x-1,y+1)).is('.lei')){num++};
+     if($('#'+xy2id(x+1,y-1)).is('.lei')){num++};
+     if($('#'+xy2id(x+1,y)).is('.lei')){num++};
+     if($('#'+xy2id(x+1,y+1)).is('.lei')){num++};
+     return num;
+   }
+  var left=function(e){
+    if($(this).is('.biaoji')){
+      return
+    }
+       if(e.data.lei){
+        $('.lei').text('⚽').addClass('warnning')
+        $('.shibai').css('display','block');
+        return
+       }else{
+
+        $(this).text(jisuan(e.data.x,e.data.y)).addClass('tip')
+        // if($('.tip').length===$('.block').length-$('.lei').length){
+        //  alert('ying')
+        // }
+       }
+  }
+  var right=function(e){
+    if($(this).is('.tip')){
+      return
+    }
+       $(this).toggleClass('biaoji')
+       if($('.lei').length===$('.biaoji').length){
+        if( $('.lei.biaoji').length===$('.lei').length ){
+          $('.niu').css('display','block');
+          return
+        }
+        alert('撒不撒');
+       }
+  }
+
+  var clickHandler=function(e){
+    if(e.which===1){
+           // zuojian.call(this,e);有兼容性问题
+           $.proxy(left,this)(e);
+    }else if(e.which===3){
+           // youjian.call(this,e);
+           $.proxy(right,this)(e);
+    }
+  }
+  var ROM=10;
+  var sence=$('.sence')
+  var i=0,j=0;
+  for(var i=0;i<ROM;i++){
+    for(var j=0;j<ROM;j++){
+      var isLei=Math.random()>0.9;
+      $('<div>')
+      .addClass(function(){
+        return 'block '+ (isLei?'lei':'')
+      })
+      .attr('id',xy2id(i,j))
+      // .text(function(){
+      //  return isLei?'⚽':''
+      // })
+      .on('mousedown',{x:i,y:j,lei:isLei},clickHandler)
+      .appendTo(sence)
+    }
+  }
+  }
+  draw();
+
+  //界面的操作
+    $('.youtu').on('click',function(){
+      $('.shibai').css('display','none');
+      $('.kaishi').css('top','0');
+    })
+          $('.zuotu').on('click',function(){
+            $('.shibai').css('display','none');
+            $('.sence').empty='';
+            draw();
+    })
+})
+
+
+
+</script>
+</body>
+</html>
